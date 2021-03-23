@@ -1,0 +1,52 @@
+$bgColor1: hsl(214, 47%, 23%);
+$bgColor2: hsl(237, 49%, 15%);
+$rockColor1: hsl(349, 71%, 52%);
+$rockColor2: hsl(349, 70%, 56%);
+$paperColor1: hsl(230, 89%, 62%);
+$paperColor2: hsl(230, 89%, 65%);
+$scissorColor1: hsl(39, 89%, 49%);
+$scissorColor2: hsl(39, 89%, 53%);
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html{
+  font-size: 62.5%;
+}
+
+body {
+  background: radial-gradient(circle at 50% 0%, hsl(214, 47%, 23%), hsl(237, 49%, 15%));
+  background-color: #000;
+  font-family: 'Lato', sans-serif;
+  height: 100vmin;
+}
+
+li{
+  list-style: none;
+}
+
+a{
+  text-decoration: none;
+  color: #f7f7f7;
+}
+
+/* PLAY AGAIN BUTTON */
+#play-again{
+  font-weight: bold;
+  font-size: 1.4rem;
+  color: #fff;
+  text-align: center;
+}
+#play-again button{
+  height: 50px;
+  width: 220px;
+  border-radius: 10px;
+  border: none;
+  font-size: 0.9rem;
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
+}
