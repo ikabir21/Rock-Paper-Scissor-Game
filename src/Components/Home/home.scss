@@ -1,14 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Montserrat:ital@1&display=swap');
+
+
 .home {
-  display: flex;
+  display: grid;
+  grid-template-rows: 70vh 0;
   align-items: center;
   height: 100vmin;
   padding-left: 10vw;
-
   // background-color: #000;
   .svg {
     display: flex;
     flex-direction: column;
     fill: none;
+  }
+  .to-level1{
+    padding: 2rem 4rem;
+    border-radius: 10px;
+    font-size: 2rem;
+    text-transform: uppercase;
+    font-family: 'Lato', sans-serif;
+    cursor: pointer;
   }
 }
 

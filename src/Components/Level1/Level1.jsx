@@ -3,37 +3,55 @@ import "./level1.scss";
 import {Link} from "react-router-dom";
 import svg from "./svg.json";
 
+
+//All const are here
+const opponentChoices = ["rock", "paper", "scissor"];
+
+const chooseWinner = (userChoice, opponentChoice) => {
+    if((userChoice==="rock" && opponentChoice==="scissor") || (userChoice==="scissor" && opponentChoice==="paper") || (userChoice==="paper" && opponentChoice==="scissor")) return "You Won!";
+    else if(userChoice===opponentChoice) return "Draw..."
+    else return "You Loose!";
+}
+
 const Level1 = () => {
+    const [userChoice, setUserChoice] = useState("");
+    const [result, setResult] = useState("");
+    const [opponentChoice, setOpponentChoice] = useState("");
+    let [score, setScore] = useState(0);
+    
 
-    const [choice,
-        setChoice] = useState("");
-
-    const [result,
-        setResult] = useState("You Won");
-
-    // const obj = svg.filter((e) => e.choice===choice);
-
-    function handleClick(e) {
-        const choice = e
-            .currentTarget
-            .getAttribute("data-choice");
-        setChoice(choice);
-        // if (choice === "paper")     setIndex(0); if (choice === "scissor")
-        // setIndex(1); if (choice === "rock")     setIndex(2);
-
+    const handleClick = (e) => {
+        const userChoice = e.currentTarget.getAttribute("data-choice");
+        const opponentChoice = opponentChoices[Math.floor(Math.random()*3)];
+        const winner = chooseWinner(userChoice, opponentChoice);
+        setOpponentChoice(opponentChoice);
+        setUserChoice(userChoice);
         setTimeout(() => {
-            document
-                .querySelector(".circles")
-                .style
-                .display = "none";
-            document
-                .querySelector(".item-picked")
-                .style
-                .display = "grid";
-        }, 100)
+            document.querySelector(".circles").style.display = "none";
+            document.querySelector(".item-picked").style.display = "grid";
+            document.querySelector(".opponent-option").style.display = "block";
+        }, 100);
+        setTimeout(() => {
+            document.querySelector(".opponent-option").style.display = "none";
+            document.querySelector(".opponent-choice-container").style.display = "block";
+            document.querySelector(".play-again-container").style.display = "block";
+            
+            setResult(winner);
+            if(winner === "You Won!") setScore(score + 1);
+            else if(winner==="You Loose!") setScore(score-1);
+        }, 1000);
+    }
+    const playAgain = () => {
+        setTimeout(() =>{
+            document.querySelector(".opponent-choice-container").style.display = "none";
+            document.querySelector(".item-picked").style.display = "none";
+            document.querySelector(".play-again-container").style.display = "none";
+            document.querySelector(".circles").style.display = "flex";
+        } ,500)
     }
 
-    function toogleRules() {
+
+    const  toogleRules = () => {
         const rules = document.querySelector(".rules-image");
         if (rules.style.display === "none") {
             rules.style.display = "block";
@@ -49,7 +67,7 @@ const Level1 = () => {
                     <span>Level i</span>
                     <ul className="score">
                         <li>Score</li>
-                        <li>0</li>
+                        <li>{score}</li>
                     </ul>
                 </div>
             </div>
@@ -77,11 +95,11 @@ const Level1 = () => {
 
             {/* item picked */}
             <div className="item-picked">
-                <div className="choices1">
+                <div>
                     <h2>YOU PICKED</h2>
                     {svg
-                        .filter(e => e.choice === choice)
-                        .map((obj) => <button className={obj.class}>
+                        .filter(e => e.choice === userChoice)
+                        .map((obj, index) => <button key={index} className={obj.class}>
                             <span className="wrapper">
                                 <svg xmlns={obj.xmlns} width={obj.width} height={obj.height}>
                                     <path fill={obj.color} d={obj.d}></path>
@@ -90,23 +108,26 @@ const Level1 = () => {
                         </button>)
 }
                 </div>
-                <div className="play-again">
+                <div className="play-again-container">
                     <h2 className="play-again-text">{result}</h2>
-                    <button className="playAgain-btn">PLAY AGAIN</button>
+                    <button onClick={playAgain} className="playAgain-btn">PLAY AGAIN</button>
                 </div>
-                <div className="opponent-choice">
-                    <h2>OPPONENT  PICKED</h2>
+                <div className="opponent-option">
+                    <h2>OPPONENT PICKED</h2>
                     <button className="house-picked-ico"></button>
                 </div>
-                <div className="comp-choice">
-                    <h2>THE HOUSE PICKED</h2>
-                    <button className="icons icon-paper">
-                        <span className="wrapper">
-                            <svg xmlns={svg[0].xmlns} width={svg[0].width} height={svg[0].height}>
-                                <path fill={svg[0].color} d={svg[0].d}></path>
-                            </svg>
-                        </span>
-                    </button>
+                <div className="opponent-choice-container">
+                    <h2>OPPONENT PICKED</h2>
+                    {svg
+                        .filter(e => e.choice === opponentChoice)
+                        .map((obj, index) => <button key={index} className={obj.class}>
+                            <span className="wrapper">
+                                <svg xmlns={obj.xmlns} width={obj.width} height={obj.height}>
+                                    <path fill={obj.color} d={obj.d}></path>
+                                </svg>
+                            </span>
+                        </button>)
+}
                 </div>
             </div>
 
